@@ -1,0 +1,1304 @@
+@startuml
+class io.jenkins.plugins.gitlabbranchsource.BranchSCMHead {
++ String getPronoun()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabTagSCMHead {
++ String getPronoun()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabWebHookListener {
++ {static} Logger LOGGER
+- {static} long GITLAB_CACHING_TIMEOUT
+- String origin
++ void onNoteEvent(NoteEvent)
++ void onMergeRequestEvent(MergeRequestEvent)
++ void onPushEvent(PushEvent)
++ void onTagPushEvent(TagPushEvent)
+- void fireTrigger(SCMHeadEvent<?>,String)
+- boolean findImmediateHookTrigger(GitLabServer)
+- long findTriggerDelay(GitLabServer)
+- GitLabServer findProjectServer(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMCauseAction {
++ String getDescription()
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest {
++ {static} JenkinsRule j
++ void configRoundtrip()
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder {
++ Credentials credentials
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder$DescriptorImpl {
++ String getDisplayName()
++ boolean isApplicable(Class<? extends AbstractProject>)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabGroup {
+- String fullName
+- String description
++ String getFullName()
++ void setFullName(String)
++ String getWord()
++ String getDescription()
++ void setDescription(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabPushSCMEvent {
++ String descriptionFor(SCMNavigator)
++ String getSourceName()
++ String descriptionFor(SCMSource)
++ String description()
++ boolean isMatch(GitLabSCMNavigator)
++ boolean isMatch(GitLabSCMSource)
++ Map<SCMHead,SCMRevision> headsFor(GitLabSCMSource)
++ GitLabWebHookCause getCause()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSystemHookAction {
++ {static} Logger LOGGER
++ String getIconFileName()
++ String getDisplayName()
++ String getUrlName()
++ boolean process(HttpServletRequest,HttpServletResponse,FilterChain)
++ HttpResponse doPost(StaplerRequest)
+- boolean isValidToken(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabUser {
++ String getWord()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabIcons {
++ {static} String ICON_PROJECT
++ {static} String ICON_BRANCH
++ {static} String ICON_GITLAB
++ {static} String ICON_COMMIT
++ {static} String ICON_MR
++ {static} String ICON_TAG
+- {static} String ICON_PATH
++ {static} void initialize()
++ {static} String iconFileName(String,Size)
++ {static} String iconFilePathPattern(String)
+- {static} String classSpec(String,Size)
+- {static} void addIcon(String)
+}
+enum io.jenkins.plugins.gitlabbranchsource.helpers.Size {
++  SMALL
++  MEDIUM
++  LARGE
++  XLARGE
+- String className
+- String dimensions
+- String style
++ {static} Size byDimensions(String)
+}
+class io.jenkins.plugins.gitlabserverconfig.servers.helpers.GitLabPersonalAccessTokenCreator {
++ {static} Logger LOGGER
+- {static} List<AccessTokenUtils.Scope> GL_PLUGIN_REQUIRED_SCOPE
+- String getShortName(String)
++ Descriptor<GitLabPersonalAccessTokenCreator> getDescriptor()
++ String getDisplayName()
++ ListBoxModel doFillCredentialsIdItems(String,String)
++ FormValidation doCreateTokenByCredentials(String,String)
++ FormValidation doCreateTokenByPassword(String,String,String)
+- void createCredentials(String,String,String,String)
+- void saveCredentials(String,PersonalAccessToken)
+}
+class io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait {
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean includeCategory(SCMHeadCategory)
+}
+class io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority {
+# boolean checkTrusted(SCMSourceRequest,GitLabTagSCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority$DescriptorImpl {
++ String getDisplayName()
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
+}
+class io.jenkins.plugins.gitlabbranchsource.Environment.GitLabWebHookEnvironmentContributor {
++ void buildEnvironmentFor(Run,EnvVars,TaskListener)
+}
+class io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait {
+- String credentialsId
++ String getCredentialsId()
+# void decorateBuilder(SCMBuilder<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMBuilder> getBuilderClass()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
++ Class<? extends SCM> getScmClass()
++ ListBoxModel doFillCredentialsIdItems(Item,String,String)
+}
+class io.jenkins.plugins.gitlabserverconfig.servers.GitLabServers {
++ {static} Logger LOGGER
+- List<GitLabServer> servers
++ {static} GitLabServers get()
+- {static} Predicate<T> distinctByKey(Function<? super T,?>)
++ ListBoxModel getServerItems()
++ List<GitLabServer> getServers()
++ void setServers(List<? extends GitLabServer>)
++ String getDisplayName()
++ List<Descriptor> actions()
++ boolean addServer(GitLabServer)
++ boolean updateServer(GitLabServer)
++ boolean removeServer(String)
++ GitLabServer findServer(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.LogCommentTrait {
+- String sudoUser
+- boolean logSuccess
++ void setLogSuccess(boolean)
++ void setSudoUser(String)
+# void decorateContext(SCMSourceContext<?,?>)
++ String getSudoUser()
++ boolean getLogSuccess()
+}
+class io.jenkins.plugins.gitlabbranchsource.LogCommentTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+abstract class io.jenkins.plugins.gitlabbranchsource.AbstractGitLabJobTrigger {
+- E payload
++ {static} void fireNow(AbstractGitLabJobTrigger)
++ E getPayload()
++ {abstract}void isMatch()
+}
+class io.jenkins.plugins.gitlabbranchsource.MergeRequestSCMHead {
+- long id
+- BranchSCMHead target
+- ChangeRequestCheckoutStrategy strategy
+- String originName
+- String originOwner
+- SCMHeadOrigin origin
+- String originProjectPath
+- String title
++ String getPronoun()
++ ChangeRequestCheckoutStrategy getCheckoutStrategy()
++ String getOriginName()
++ String getId()
++ BranchSCMHead getTarget()
++ SCMHeadOrigin getOrigin()
++ String getOriginOwner()
++ String getOriginProjectPath()
++ String getTitle()
++ void setTitle(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait {
+- boolean markUnstableAsSuccess
++ void setMarkUnstableAsSuccess(boolean)
++ boolean getMarkUnstableAsSuccess()
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean doMarkUnstableAsSuccess()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+abstract class io.jenkins.plugins.gitlabbranchsource.AbstractGitLabSCMHeadEvent {
++ {static} Logger LOGGER
+- {static} Pattern NONE_HASH_PATTERN
+~ {static} Type typeOf(E)
+- {static} boolean isPresent(String)
++ boolean isMatch(SCMNavigator)
++ {abstract}boolean isMatch(GitLabSCMNavigator)
++ boolean isMatch(SCMSource)
++ {abstract}boolean isMatch(GitLabSCMSource)
++ Map<SCMHead,SCMRevision> heads(SCMSource)
++ boolean isMatch(SCM)
+# {abstract}Map<SCMHead,SCMRevision> headsFor(GitLabSCMSource)
++ {abstract}GitLabWebHookCause getCause()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceRequest {
++ {static} Logger LOGGER
+- boolean fetchBranches
+- boolean fetchTags
+- boolean fetchOriginMRs
+- boolean fetchForkMRs
+- Set<ChangeRequestCheckoutStrategy> originMRStrategies
+- Set<ChangeRequestCheckoutStrategy> forkMRStrategies
+- Set<Long> requestedMergeRequestNumbers
+- Set<String> requestedOriginBranchNames
+- Set<String> requestedTagNames
+- Iterable<MergeRequest> mergeRequests
+- Iterable<Branch> branches
+- Iterable<Tag> tags
+- HashMap<String,AccessLevel> members
+- Project gitlabProject
+- GitLabApi gitLabApi
++ boolean isFetchBranches()
++ boolean isFetchTags()
++ boolean isFetchMRs()
++ boolean isFetchOriginMRs()
++ boolean isFetchForkMRs()
++ Set<ChangeRequestCheckoutStrategy> getOriginMRStrategies()
++ Set<ChangeRequestCheckoutStrategy> getForkMRStrategies()
++ Set<ChangeRequestCheckoutStrategy> getMRStrategies(boolean)
++ Map<Boolean,Set<ChangeRequestCheckoutStrategy>> getMRStrategies()
++ Set<Long> getRequestedMergeRequestNumbers()
++ Set<String> getRequestedOriginBranchNames()
++ Set<String> getRequestedTagNames()
++ Iterable<MergeRequest> getMergeRequests()
++ void setMergeRequests(Iterable<MergeRequest>)
++ Iterable<Branch> getBranches()
++ void setBranches(Iterable<Branch>)
++ Iterable<Tag> getTags()
++ void setTags(Iterable<Tag>)
++ HashMap<String,AccessLevel> getMembers()
++ void setMembers(HashMap<String,AccessLevel>)
++ GitLabApi getGitLabApi()
++ void setGitLabApi(GitLabApi)
++ AccessLevel getPermission(String)
++ boolean isMember(String)
++ void close()
++ void setProject(Project)
++ Project getGitlabProject()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestTrigger {
++ {static} Logger LOGGER
++ boolean isMatch(GitLabSCMSource)
+- boolean shouldBuild(MergeRequestEvent,GitLabSCMSourceContext)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestSCMEvent {
++ {static} Logger LOGGER
+- {static} Type typeOf(MergeRequestEvent)
++ String descriptionFor(SCMNavigator)
++ boolean isMatch(GitLabSCMNavigator)
++ boolean isMatch(GitLabSCMSource)
++ String getSourceName()
++ String descriptionFor(SCMSource)
++ String description()
++ Map<SCMHead,SCMRevision> headsFor(GitLabSCMSource)
++ GitLabWebHookCause getCause()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatar {
+- String avatar
++ String getAvatarImageOf(String)
++ boolean equals(Object)
++ int hashCode()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache {
++ {static} Logger LOGGER
+- ConcurrentMap<String,CacheEntry> cache
+- ExecutorService service
+- Object serviceLock
+- Iterator<Map.Entry<String,CacheEntry>> iterator
++ {static} String buildUrl(String,String)
+- {static} BufferedImage scaleImage(BufferedImage,int)
+- {static} BufferedImage generateAvatar(String,int)
++ String getIconFileName()
++ String getDisplayName()
++ String getUrlName()
++ HttpResponse doDynamic(StaplerRequest,String)
+- CacheEntry getCacheEntry(String,String)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$CacheEntry {
+- String url
+- BufferedImage image
+- long lastModified
+- long lastAccessed
+- Future<CacheEntry> future
++ boolean pending()
++ void setFuture(Future<CacheEntry>)
++ boolean isStale()
++ void touch()
++ boolean isUnused()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$ImageResponse {
+- BufferedImage image
+- boolean flushImage
+- String cacheControl
+- long lastModified
++ void generateResponse(StaplerRequest,StaplerResponse,Object)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$FetchImage {
+- String url
++ CacheEntry call()
+}
+class io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait {
+- String commentBody
+- boolean onlyTrustedMembersCanTrigger
++ String getCommentBody()
++ boolean getOnlyTrustedMembersCanTrigger()
+# void decorateContext(SCMSourceContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem {
+- GitLabApi gitLabApi
+- String projectPath
+- String ref
++ long lastModified()
++ SCMFile getRoot()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem$BuilderImpl {
++ boolean supports(SCM)
++ boolean supports(SCMSource)
+# boolean supportsDescriptor(SCMDescriptor)
+# boolean supportsDescriptor(SCMSourceDescriptor)
++ SCMFileSystem build(Item,SCM,SCMRevision)
++ SCMFileSystem build(SCMSource,SCMHead,SCMRevision)
++ SCMFileSystem build(SCMHead,SCMRevision,GitLabApi,String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait {
+- boolean disableProjectAvatar
++ void setDisableProjectAvatar(boolean)
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean isDisableProjectAvatar()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigatorRequest {
+- boolean wantSubgroupProjects
+- int projectNamingStrategy
++ boolean wantSubgroupProjects()
++ int withProjectNamingStrategy()
+}
+class io.jenkins.plugins.gitlabserverconfig.servers.GitLabServerTest {
++ {static} JenkinsRule j
++ void testFixEmptyAndTrimOne()
++ void testFixEmptyAndTrimTwo()
++ void testFixEmptyAndTrimThree()
++ void testFixEmptyAndTrimFour()
++ void testFixEmptyAndTrimFive()
+}
+class io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait {
+# void decorateContext(SCMNavigatorContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait$DescriptorImpl {
++ Class<? extends SCMNavigatorContext> getContextClass()
++ String getDisplayName()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabWebHookAction {
++ {static} Logger LOGGER
++ String getIconFileName()
++ String getDisplayName()
++ String getUrlName()
++ boolean process(HttpServletRequest,HttpServletResponse,FilterChain)
++ HttpResponse doPost(StaplerRequest)
+- boolean isValidToken(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMFile {
+- GitLabApi gitLabApi
+- String projectPath
+- String ref
+- boolean isDir
+# SCMFile newChild(String,boolean)
++ Iterable<SCMFile> children()
++ long lastModified()
+# Type type()
++ InputStream content()
+- InputStream fetchFile()
+- List<TreeItem> fetchTree()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabHelper {
++ {static} GitLabApi apiBuilder(AccessControlled,String)
++ {static} Map<String,Object> getProxyConfig(String)
++ {static} String getServerUrlFromName(String)
++ {static} String getServerUrl(GitLabServer)
+- {static} String getServerUrl(String)
+- {static} String sanitizeUrlValue(String)
++ {static} String getPrivateTokenAsPlainText(StandardCredentials)
++ {static} UriTemplateBuilder getUriTemplateFromServer(String)
++ {static} UriTemplate projectUriTemplate(String)
++ {static} UriTemplate branchUriTemplate(String)
++ {static} UriTemplate mergeRequestUriTemplate(String)
++ {static} UriTemplate tagUriTemplate(String)
++ {static} UriTemplate commitUriTemplate(String)
++ {static} String[] splitPath(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier {
++ {static} Logger LOGGER
+~ {static} String GITLAB_PIPELINE_STATUS_PREFIX
+~ {static} String GITLAB_PIPELINE_STATUS_DELIMITER
+~ {static} Pattern MERGE_REQUEST_JOB_NAME_FORMAT
+- {static} String getRootUrl(Run<?,?>)
+- {static} GitLabSCMSourceContext getSourceContext(Run<?,?>,GitLabSCMSource)
+- {static} GitLabSCMSource getSource(Run<?,?>)
+- {static} String getStatusName(GitLabSCMSourceContext,Run<?,?>,EnvVars,SCMRevision)
+- {static} String getStatusName(GitLabSCMSourceContext,Job<?,?>,EnvVars,SCMRevision)
+~ {static} String getStatusName(GitLabSCMSourceContext,String,SCMRevision,EnvVars)
+~ {static} String getRevisionRef(SCMRevision)
+- {static} String getMrBuildName(MergeRequestSCMRevision)
+- {static} void logComment(Run<?,?>,TaskListener)
+~ {static} Long getSourceProjectId(Job,GitLabApi,String)
+- {static} void sendNotifications(Run<?,?>,TaskListener,Boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobScheduledListener {
+- AtomicLong nonce
+- Map<Job,Long> resolving
++ void onEnterWaiting(Queue.WaitingItem)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCheckOutListener {
++ void onCheckout(Run<?,?>,SCM,FilePath,TaskListener,File,SCMRevisionState)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCompletedListener {
++ void onCompleted(Run<?,?>,TaskListener)
++ void onStarted(Run<?,?>,TaskListener)
+}
+enum io.jenkins.plugins.gitlabbranchsource.GitLabHookRegistration {
++  DISABLE
++  SYSTEM
++  ITEM
+}
+class io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait {
+- String buildStatusNameCustomPart
+- boolean buildStatusNameOverwrite
+- boolean ignoreTypeInStatusName
++ void setBuildStatusNameCustomPart(String)
++ void setBuildStatusNameOverwrite(Boolean)
++ void setIgnoreTypeInStatusName(Boolean)
+# void decorateContext(SCMSourceContext<?,?>)
++ String getBuildStatusNameCustomPart()
++ boolean getBuildStatusNameOverwrite()
++ boolean getIgnoreTypeInStatusName()
+}
+class io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabHookCreatorParameterizedTest {
++ {static} JenkinsRule r
+- String jenkinsUrl
+- boolean hookType
+- String expectedPath
++ {static} Iterable<Object[]> data()
++ void hookUrl()
++ void hookUrlFromCustomRootUrl()
+}
+interface io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessToken {
+~ Secret getToken()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabLink {
+- String iconClassName
+- String url
+- String displayName
++ {static} GitLabLink toGroup(String)
++ {static} GitLabLink toProject(String)
++ {static} GitLabLink toBranch(String)
++ {static} GitLabLink toMergeRequest(String)
++ {static} GitLabLink toTag(String)
++ {static} GitLabLink toCommit(String)
++ String getUrl()
++ String getIconClassName()
++ String getIconFileName()
++ String getDisplayName()
++ void setDisplayName(String)
++ String getUrlName()
++ int hashCode()
++ boolean equals(Object)
++ String toString()
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchSCMRevision {
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.helpers.GitLabCredentialMatcher {
+- {static} long serialVersionUID
++ boolean matches(Credentials)
+}
+class io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait {
+- int strategyId
++ int getStrategyId()
++ void setStrategyId(int)
+# void decorateContext(SCMNavigatorContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMNavigator> getNavigatorClass()
++ ListBoxModel doFillStrategyIdItems()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser {
++ String getProjectUrl()
++ URL getChangeSetLink(GitChangeSet)
++ URL getDiffLink(GitChangeSet.Path)
++ URL getFileLink(GitChangeSet.Path)
+- URL diffLink(GitChangeSet.Path)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser$DescriptorImpl {
++ String getDisplayName()
++ GitLabBrowser newInstance(StaplerRequest,JSONObject)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabHookCreator {
++ {static} Logger LOGGER
++ {static} void register(SCMNavigatorOwner,GitLabSCMNavigator,GitLabHookRegistration)
++ {static} void register(GitLabSCMSource,GitLabHookRegistration,GitLabHookRegistration)
++ {static} void createSystemHookWhenMissing(GitLabServer,StandardCredentials)
++ {static} String getHookUrl(boolean)
++ {static} String getHookUrl(GitLabServer,boolean)
+~ {static} void checkURL(String)
++ {static} ProjectHook createWebHook()
++ {static} String createWebHookWhenMissing(GitLabApi,String,String,String)
++ {static} boolean isTokenEqual(String,String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMBuilder {
+- {static} SecureRandom RANDOM
+- SCMSourceOwner context
+- String serverUrl
+- String projectPath
+- String sshRemote
+- String httpRemote
++ {static} UriTemplate checkoutUriTemplate(Item,String,String,String,String,String)
+- String projectUrl(String)
++ UriTemplate checkoutUriTemplate()
++ GitLabSCMBuilder withGitLabRemote()
++ GitSCM build()
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait {
+- int strategyId
+- SCMHeadAuthority<? super GitLabSCMSourceRequest,? extends ChangeRequestSCMHead2,? extends SCMRevision> trust
+- boolean buildMRForksNotMirror
++ int getStrategyId()
++ Set<ChangeRequestCheckoutStrategy> getStrategies()
++ SCMHeadAuthority<? super GitLabSCMSourceRequest,? extends ChangeRequestSCMHead2,? extends SCMRevision> getTrust()
++ boolean getBuildMRForksNotMirror()
++ void setBuildMRForksNotMirror(boolean)
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean includeCategory(SCMHeadCategory)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
++ ListBoxModel doFillStrategyIdItems()
++ List<SCMHeadAuthorityDescriptor> getTrustDescriptors()
++ SCMHeadAuthority<?,?,?> getDefaultTrust()
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody {
++ boolean checkTrusted(SCMSourceRequest,ChangeRequestSCMHead2)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody$DescriptorImpl {
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
++ String getDisplayName()
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers {
+# boolean checkTrusted(GitLabSCMSourceRequest,MergeRequestSCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers$DescriptorImpl {
++ String getDisplayName()
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission {
+# boolean checkTrusted(GitLabSCMSourceRequest,MergeRequestSCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission$DescriptorImpl {
++ String getDisplayName()
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone {
+# boolean checkTrusted(SCMSourceRequest,ChangeRequestSCMHead2)
+}
+class io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone$DescriptorImpl {
++ String getDisplayName()
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait {
+- int strategyId
++ int getStrategyId()
++ boolean isBuildBranch()
++ boolean isBuildBranchesWithMR()
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean includeCategory(SCMHeadCategory)
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
++ ListBoxModel doFillStrategyIdItems()
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority {
+# boolean checkTrusted(SCMSourceRequest,BranchSCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority$DescriptorImpl {
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
++ String getDisplayName()
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$ExcludeOriginMRBranchesSCMHeadFilter {
++ boolean isExcluded(SCMSourceRequest,SCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$OnlyOriginMRBranchesSCMHeadFilter {
++ boolean isExcluded(SCMSourceRequest,SCMHead)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceBuilder {
+- String id
+- String serverName
+- String credentialsId
+- String projectOwner
+- String projectPath
+- String projectName
++ String getId()
++ String getCredentialsId()
++ GitLabSCMSource build()
+}
+class io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait {
+- boolean alwaysBuildMROpen
+- boolean alwaysBuildMRReOpen
+- boolean alwaysIgnoreMRApproval
+- boolean alwaysIgnoreMRUnApproval
+- boolean alwaysIgnoreMRApproved
+- boolean alwaysIgnoreMRUnApproved
+- boolean alwaysIgnoreNonCodeRelatedUpdates
+- boolean alwaysIgnoreMRWorkInProgress
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean getAlwaysBuildMROpen()
++ boolean getAlwaysBuildMRReOpen()
++ boolean getAlwaysIgnoreMRApproval()
++ boolean getAlwaysIgnoreMRUnApproval()
++ boolean getAlwaysIgnoreMRApproved()
++ boolean getAlwaysIgnoreMRUnApproved()
++ boolean getAlwaysIgnoreNonCodeRelatedUpdates()
++ boolean getAlwaysIgnoreMRWorkInProgress()
++ void setAlwaysBuildMROpen(boolean)
++ void setAlwaysBuildMRReOpen(boolean)
++ void setAlwaysIgnoreMRApproval(boolean)
++ void setAlwaysIgnoreMRUnApproval(boolean)
++ void setAlwaysIgnoreMRApproved(boolean)
++ void setAlwaysIgnoreMRUnApproved(boolean)
++ void setAlwaysIgnoreNonCodeRelatedUpdates(boolean)
++ void setAlwaysIgnoreMRWorkInProgress(boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceDeserializationTest {
+- {static} String PROJECT_NAME
+- {static} String SOURCE_ID
++ RestartableJenkinsRule plan
++ void afterRestartingJenkinsTransientFieldsAreNotNull()
+}
+class io.jenkins.plugins.gitlabserverconfig.action.GitlabAction {
++ {static} Logger LOGGER
++ HttpResponse doServerList()
++ HttpResponse doProjectList(SCMSourceOwner,String,String)
++ String getIconFileName()
++ String getDisplayName()
++ String getUrlName()
+}
+class io.jenkins.plugins.gitlabserverconfig.casc.ConfigurationAsCodeTest {
++ {static} JenkinsConfiguredWithCodeRule j
++ void should_support_configuration_as_code()
++ void should_support_configuration_export()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceContext {
+- boolean wantBranches
+- boolean wantTags
+- boolean wantOriginMRs
+- boolean wantForkMRs
+- Set<ChangeRequestCheckoutStrategy> originMRStrategies
+- Set<ChangeRequestCheckoutStrategy> forkMRStrategies
+- GitLabHookRegistration webhookRegistration
+- GitLabHookRegistration systemhookRegistration
+- boolean buildMRForksNotMirror
+- boolean notificationsDisabled
+- boolean logCommentEnabled
+- String sudoUser
+- boolean logSuccess
+- boolean mrCommentTriggerEnabled
+- boolean onlyTrustedMembersCanTrigger
+- String commentBody
+- boolean projectAvatarDisabled
+- String buildStatusNameCustomPart
+- boolean buildStatusNameOverwrite
+- boolean ignoreTypeInStatusName
+- boolean alwaysBuildMROpen
+- boolean alwaysBuildMRReOpen
+- boolean alwaysIgnoreMRApproval
+- boolean alwaysIgnoreMRUnApproval
+- boolean alwaysIgnoreMRApproved
+- boolean alwaysIgnoreMRUnApproved
+- boolean alwaysIgnoreNonCodeRelatedUpdates
+- boolean alwaysIgnoreMRWorkInProgress
+- boolean markUnstableAsSuccess
++ boolean wantBranches()
++ boolean wantTags()
++ boolean wantMRs()
++ boolean wantOriginMRs()
++ boolean wantForkMRs()
++ Set<ChangeRequestCheckoutStrategy> originMRStrategies()
++ Set<ChangeRequestCheckoutStrategy> forkMRStrategies()
++ GitLabHookRegistration webhookRegistration()
++ GitLabHookRegistration systemhookRegistration()
++ boolean buildMRForksNotMirror()
++ boolean notificationsDisabled()
++ boolean projectAvatarDisabled()
++ boolean logCommentEnabled()
++ String getSudoUser()
++ boolean doLogSuccess()
++ boolean mrCommentTriggerEnabled()
++ boolean getOnlyTrustedMembersCanTrigger()
++ boolean getMarkUnstableAsSuccess()
++ boolean alwaysBuildMROpen()
++ boolean alwaysBuildMRReOpen()
++ boolean alwaysIgnoreMRApproval()
++ boolean alwaysIgnoreMRUnApproval()
++ boolean alwaysIgnoreMRApproved()
++ boolean alwaysIgnoreMRUnApproved()
++ boolean alwaysIgnoreNonCodeRelatedUpdates()
++ boolean alwaysIgnoreMRWorkInProgress()
++ String getCommentBody()
++ String getBuildStatusNameCustomPart()
++ boolean getBuildStatusNameOverwrite()
++ boolean getIgnoreTypeInStatusName()
++ GitLabSCMSourceContext wantBranches(boolean)
++ GitLabSCMSourceContext wantTags(boolean)
++ GitLabSCMSourceContext wantOriginMRs(boolean)
++ GitLabSCMSourceContext wantForkMRs(boolean)
++ GitLabSCMSourceContext withOriginMRStrategies(Set<ChangeRequestCheckoutStrategy>)
++ GitLabSCMSourceContext withForkMRStrategies(Set<ChangeRequestCheckoutStrategy>)
++ GitLabSCMSourceContext webhookRegistration(GitLabHookRegistration)
++ GitLabSCMSourceContext systemhookRegistration(GitLabHookRegistration)
++ GitLabSCMSourceContext withBuildMRForksNotMirror(boolean)
++ GitLabSCMSourceContext withNotificationsDisabled(boolean)
++ GitLabSCMSourceContext withProjectAvatarDisabled(boolean)
++ GitLabSCMSourceContext withMarkUnstableAsSuccess(boolean)
++ GitLabSCMSourceContext withLogCommentEnabled(boolean)
++ GitLabSCMSourceContext withMRCommentTriggerEnabled(boolean)
++ GitLabSCMSourceContext withOnlyTrustedMembersCanTrigger(boolean)
++ GitLabSCMSourceContext withSudoUser(String)
++ GitLabSCMSourceContext withLogSuccess(boolean)
++ GitLabSCMSourceContext withCommentBody(String)
++ GitLabSCMSourceContext withBuildStatusNameCustomPart(String)
++ GitLabSCMSourceContext withBuildStatusNameOverwrite(Boolean)
++ GitLabSCMSourceContext withIgnoreTypeInStatusName(Boolean)
++ GitLabSCMSourceRequest newRequest(SCMSource,TaskListener)
++ GitLabSCMSourceContext withAlwaysBuildMROpen(boolean)
++ GitLabSCMSourceContext withAlwaysBuildMRReOpen(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreMRApproval(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreMRUnApproval(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreMRApproved(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreMRUnApproved(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreNonCodeRelatedUpdates(boolean)
++ GitLabSCMSourceContext withAlwaysIgnoreMRWorkInProgress(boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabWebHookCause {
+- String description
+- GitLabPushCauseData gitLabPushCauseData
+- GitLabMergeRequestCauseData gitLabMergeRequestCauseData
+- GitLabTagPushCauseData gitLabTagPushCauseData
++ GitLabWebHookCause fromPush(PushEvent)
++ GitLabWebHookCause fromMergeRequest(MergeRequestEvent)
++ GitLabWebHookCause fromTag(TagPushEvent)
++ String getShortDescription()
++ boolean equals(Object)
++ int hashCode()
++ GitLabPushCauseData getGitLabPushCauseData()
++ GitLabMergeRequestCauseData getGitLabMergeRequestCauseData()
++ GitLabTagPushCauseData getGitLabTagPushCauseData()
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabHelperTest {
++ void server_url_does_not_have_trailing_slash()
+}
+class io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait {
+- GitLabHookRegistration webHookMode
+- GitLabHookRegistration systemHookMode
++ GitLabHookRegistration getWebHookMode()
++ GitLabHookRegistration getSystemHookMode()
+# void decorateContext(SCMSourceContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
++ ListBoxModel doFillWebHookModeItems()
++ ListBoxModel doFillSystemHookModeItems()
+- ListBoxModel getOptions(boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestCommentTrigger {
++ {static} Logger LOGGER
++ void isMatch()
+- boolean isTrustedMember(GitLabSCMSource,boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait {
+# void decorateContext(SCMNavigatorContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMNavigator> getNavigatorClass()
+}
+class io.jenkins.plugins.gitlabbranchsource.Cause.GitLabMergeRequestCauseData {
+- Map<String,String> variables
++ Map<String,String> getBuildVariables()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator {
++ {static} Logger LOGGER
+- String projectOwner
+- String serverName
+- String credentialsId
+- List<SCMTrait<? extends SCMTrait<?>>> traits
+- HashSet<String> navigatorProjects
+- boolean isGroup
+- boolean wantSubGroupProjects
+- GitLabOwner gitlabOwner
++ {static} String getProjectOwnerFromNamespace(String)
++ HashSet<String> getNavigatorProjects()
++ boolean isGroup()
++ boolean isWantSubGroupProjects()
++ String getCredentialsId()
++ void setCredentialsId(String)
++ String getServerName()
++ void setServerName(String)
++ String getProjectOwner()
++ List<SCMTrait<? extends SCMTrait<?>>> getTraits()
++ void setTraits(SCMTrait[])
+- GitLabOwner getGitlabOwner(SCMNavigatorOwner)
+- GitLabOwner getGitlabOwner(GitLabApi)
++ void setTraits(List<SCMTrait<? extends SCMTrait<?>>>)
+# String id()
++ void visitSources(SCMSourceObserver)
+- String getProjectName(GitLabApi,int,Project)
+- StandardCredentials getWebHookCredentials(SCMSourceOwner)
+# List<Action> retrieveActions(SCMNavigatorOwner,SCMNavigatorEvent,TaskListener)
++ void afterSave(SCMNavigatorOwner)
++ StandardCredentials credentials(SCMSourceOwner)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator$DescriptorImpl {
+- GitLabSCMSource.DescriptorImpl delegate
++ {static} FormValidation doCheckProjectOwner(SCMSourceOwner,String,String)
++ String getDisplayName()
++ String getPronoun()
++ String getDescription()
++ String getIconClassName()
++ String getIconFilePathPattern()
++ SCMNavigator newInstance(String)
++ ListBoxModel doFillServerNameItems(SCMSourceOwner,String)
++ ListBoxModel doFillCredentialsIdItems(SCMSourceOwner,String,String)
++ List<NamedArrayList<? extends SCMTraitDescriptor<?>>> getTraitsDescriptorLists()
++ List<SCMTrait<? extends SCMTrait<?>>> getTraitsDefaults()
+}
+class io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait {
+- int strategyId
++ int getStrategyId()
++ Set<ChangeRequestCheckoutStrategy> getStrategies()
+# void decorateContext(SCMSourceContext<?,?>)
++ boolean includeCategory(SCMHeadCategory)
+}
+class io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
++ ListBoxModel doFillStrategyIdItems()
+}
+class io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority {
+# boolean checkTrusted(SCMSourceRequest,ChangeRequestSCMHead2)
+}
+class io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority$DescriptorImpl {
++ boolean isApplicableToOrigin(Class<? extends SCMHeadOrigin>)
++ String getDisplayName()
+}
+class io.jenkins.plugins.gitlabbranchsource.Cause.GitLabPushCauseData {
+- Map<String,String> variables
++ Map<String,String> getBuildVariables()
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl {
+- Secret token
++ Secret getToken()
+}
+class io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl$DescriptorImpl {
+- {static} int GITLAB_ACCESS_TOKEN_MINIMAL_LENGTH
++ String getDisplayName()
++ FormValidation doCheckToken(String)
+}
+class io.jenkins.plugins.gitlabbranchsource.Cause.GitLabMergeRequestNoteData {
+- Map<String,String> variables
++ Map<String,String> getBuildVariables()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabProjectSCMEvent {
+- {static} Type typeOf(ProjectSystemHookEvent)
++ String descriptionFor(SCMNavigator)
++ String description()
++ String descriptionFor(SCMSource)
++ String getSourceName()
++ boolean isMatch(SCMNavigator)
+- boolean isMatch(GitLabSCMNavigator)
++ boolean isMatch(SCMSource)
+}
+class io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer {
++ {static} CredentialsMatcher CREDENTIALS_MATCHER
++ {static} String GITLAB_SERVER_DEFAULT_NAME
++ {static} String GITLAB_SERVER_URL
++ {static} String EMPTY_TOKEN
++ {static} Logger LOGGER
+- {static} SecureRandom RANDOM
+- {static} int SHORT_NAME_LENGTH
+- {static} String[] COMMON_PREFIX_HOSTNAMES
+- String name
+- String serverUrl
+- boolean manageWebHooks
+- boolean manageSystemHooks
+- String credentialsId
+- String hooksRootUrl
+- Secret secretToken
+- String webhookSecretCredentialsId
++ {static} CredentialsMatcher WEBHOOK_SECRET_CREDENTIALS_MATCHER
+- boolean immediateHookTrigger
+- Integer hookTriggerDelay
+- String getRandomName()
++ String getName()
++ String getServerUrl()
++ boolean isManageWebHooks()
++ void setManageWebHooks(boolean)
++ boolean isManageSystemHooks()
++ void setManageSystemHooks(boolean)
++ String getCredentialsId()
++ StandardCredentials getCredentials(AccessControlled)
++ void setHooksRootUrl(String)
++ String getHooksRootUrl()
++ void setSecretToken(Secret)
++ void setWebhookSecretCredentialsId(String)
++ String getWebhookSecretCredentialsId()
++ StringCredentials getWebhookSecretCredentials(AccessControlled)
++ DescriptorImpl getDescriptor()
++ Secret getSecretToken()
+- StringCredentials getWebhookSecretCredentials(String)
++ String getSecretTokenAsPlainText()
+- Object readResolve()
+- void migrateWebhookSecretCredentials()
++ boolean isImmediateHookTrigger()
++ void setImmediateHookTrigger(boolean)
++ void setHookTriggerDelay(String)
++ Integer getHookTriggerDelay()
+}
+class io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer$DescriptorImpl {
++ {static} FormValidation doCheckServerUrl(String)
++ {static} FormValidation doCheckHooksRootUrl(String)
++ {static} FormValidation doCheckHookTriggerDelay(String)
++ String getDisplayName()
++ FormValidation doTestConnection(String,String)
++ ListBoxModel doFillCredentialsIdItems(String,String)
++ ListBoxModel doFillWebhookSecretCredentialsIdItems(String,String)
+- StandardCredentials getCredentials(String,String)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigatorContext {
+- boolean wantSubgroupProjects
+- int projectNamingStrategy
+- boolean excludeArchivedRepositories
++ GitLabSCMNavigatorRequest newRequest(SCMNavigator,SCMSourceObserver)
++ boolean wantSubgroupProjects()
++ GitLabSCMNavigatorContext wantSubgroupProjects(boolean)
++ int withProjectNamingStrategy()
++ GitLabSCMNavigatorContext withProjectNamingStrategy(int)
++ boolean isExcludeArchivedRepositories()
++ void setExcludeArchivedRepositories(boolean)
+}
+class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifierTest {
++ void should_set_branch_status_name()
++ void should_set_branch_status_name_withBuildStatusNameCustomPart()
++ void should_set_branch_status_name_withIgnoreTypeInStatusName()
++ void should_set_merge_request_head_status_name()
++ void should_set_merge_request_merge_status_name()
++ void should_set_tag_status_name()
++ void should_set_branch_ref_name()
++ void should_set_merge_request_ref_name()
++ void should_set_tag_ref_name()
++ void should_get_mr_project_id()
++ void should_get_mr_project_id_projects_using_both_strategy_head()
++ void should_get_mr_project_id_projects_using_both_strategy_merge()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabTagPushSCMEvent {
++ String descriptionFor(SCMNavigator)
++ String getSourceName()
++ String descriptionFor(SCMSource)
++ boolean isMatch(GitLabSCMNavigator)
++ boolean isMatch(GitLabSCMSource)
++ Map<SCMHead,SCMRevision> headsFor(GitLabSCMSource)
++ GitLabWebHookCause getCause()
+}
+class io.jenkins.plugins.gitlabbranchsource.Cause.GitLabCauseUtils {
++ {static} int defaultListSize(List<?>)
++ {static} String defaultLabelString(LabelType)
++ {static} String defaultBooleanString(Boolean)
++ {static} String defaultVisibilityString(AccessLevel)
++ {static} String defaultDateString(Date)
++ {static} String defaultIntString(Integer)
++ {static} String defaultLongString(Long)
+}
+class io.jenkins.plugins.gitlabbranchsource.Cause.GitLabTagPushCauseData {
+- Map<String,String> variables
++ Map<String,String> getBuildVariables()
+}
+class io.jenkins.plugins.gitlabbranchsource.MergeRequestSCMRevision {
+- String baseHash
+- String headHash
+- BranchSCMRevision origin
++ String getBaseHash()
++ String getHeadHash()
++ BranchSCMRevision getOrigin()
++ boolean equivalent(ChangeRequestSCMRevision<?>)
+# int _hashCode()
++ String toString()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSystemHookListener {
++ {static} Logger LOGGER
+- String origin
++ void onProjectEvent(ProjectSystemHookEvent)
++ void onGroupEvent(GroupSystemHookEvent)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestCommentCause {
+- String commentUrl
+- GitLabMergeRequestNoteData gitLabMergeRequestNoteData
++ String getShortDescription()
++ String getCommentUrl()
++ GitLabMergeRequestNoteData getGitLabMergeRequestNoteData()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait {
+# void decorateContext(SCMSourceContext<?,?>)
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait$DescriptorImpl {
++ String getDisplayName()
++ Class<? extends SCMSourceContext> getContextClass()
++ Class<? extends SCMSource> getSourceClass()
+}
+abstract class io.jenkins.plugins.gitlabbranchsource.helpers.GitLabOwner {
+- String name
+- String webUrl
+- String avatarUrl
+- Long id
++ {static} GitLabOwner fetchOwner(GitLabApi,String)
++ String getName()
++ void setName(String)
++ String getFullName()
++ String getWebUrl()
++ void setWebUrl(String)
++ String getAvatarUrl()
++ void setAvatarUrl(String)
++ Long getId()
++ void setId(Long)
++ {abstract}String getWord()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource {
++ {static} Logger LOGGER
+- String serverName
+- String projectOwner
+- String projectPath
+- String projectName
+- String credentialsId
+- List<SCMSourceTrait> traits
+- String sshRemote
+- String httpRemote
+- Project gitlabProject
+- long projectId
+- Map<Long,ObjectMetadataAction> mergeRequestMetadataCache
+- Map<Long,ContributorMetadataAction> mergeRequestContributorCache
++ String getServerName()
++ String getProjectOwner()
++ String getProjectPath()
++ String getHttpRemote()
++ void setHttpRemote(String)
++ String getSshRemote()
++ void setSshRemote(String)
++ String getProjectName()
++ void setProjectName(String)
++ String getCredentialsId()
++ void setCredentialsId(String)
++ String getRemote()
+# Project getGitlabProject()
+# Project getGitlabProject(GitLabApi)
++ HashMap<String,AccessLevel> getMembers()
++ long getProjectId()
++ void setProjectId(long)
++ List<SCMSourceTrait> getTraits()
++ void setTraits(List<SCMSourceTrait>)
+# SCMRevision retrieve(SCMHead,TaskListener)
+# void retrieve(SCMSourceCriteria,SCMHeadObserver,SCMHeadEvent<?>,TaskListener)
+# SCMRevision retrieve(String,TaskListener)
+# Set<String> retrieveRevisions(TaskListener)
+# List<Action> retrieveActions(SCMSourceEvent,TaskListener)
+# List<Action> retrieveActions(SCMHead,SCMHeadEvent,TaskListener)
++ SCM build(SCMHead,SCMRevision)
++ SCMRevision getTrustedRevision(SCMRevision,TaskListener)
+# List<Action> retrieveActions(SCMRevision,SCMHeadEvent,TaskListener)
+# SCMProbe createProbe(SCMHead,SCMRevision)
++ void afterSave()
++ PersonalAccessToken credentials()
+- Object readResolve()
+}
+class io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource$DescriptorImpl {
++ String getIconClassName()
++ String getDisplayName()
++ String getPronoun()
++ String getSelectedServer(String)
++ ListBoxModel doFillServerNameItems(SCMSourceOwner,String)
++ ListBoxModel doFillCredentialsIdItems(SCMSourceOwner,String,String)
++ long getProjectId(SCMSourceOwner,String,String)
++ ListBoxModel doFillProjectPathItems(SCMSourceOwner,String,String)
++ List<NamedArrayList<? extends SCMTraitDescriptor<?>>> getTraitsDescriptorLists()
++ List<SCMSourceTrait> getTraitsDefaults()
+# SCMHeadCategory[] createCategories()
+}
+class io.jenkins.plugins.gitlabbranchsource.MergeWithGitSCMExtension {
+- Object readResolve()
+}
+
+
+jenkins.scm.api.SCMHead <|-- io.jenkins.plugins.gitlabbranchsource.BranchSCMHead
+jenkins.scm.api.mixin.TagSCMHead <|.. io.jenkins.plugins.gitlabbranchsource.GitLabTagSCMHead
+jenkins.plugins.git.GitTagSCMHead <|-- io.jenkins.plugins.gitlabbranchsource.GitLabTagSCMHead
+org.gitlab4j.api.webhook.WebHookListener <|.. io.jenkins.plugins.gitlabbranchsource.GitLabWebHookListener
+hudson.model.CauseAction <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMCauseAction
+io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest +.. io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder
+io.jenkins.plugins.gitlabserverconfig.credentials.Builder <|-- io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder
+io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder +.. io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder$DescriptorImpl
+io.jenkins.plugins.gitlabserverconfig.credentials.BuildStepDescriptor <|-- io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImplTest$CredentialsBuilder$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabOwner <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabGroup
+io.jenkins.plugins.gitlabbranchsource.AbstractGitLabSCMHeadEvent <|-- io.jenkins.plugins.gitlabbranchsource.GitLabPushSCMEvent
+hudson.model.UnprotectedRootAction <|.. io.jenkins.plugins.gitlabbranchsource.GitLabSystemHookAction
+hudson.security.csrf.CrumbExclusion <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSystemHookAction
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabOwner <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabUser
+hudson.model.Describable <|.. io.jenkins.plugins.gitlabserverconfig.servers.helpers.GitLabPersonalAccessTokenCreator
+hudson.model.Descriptor <|-- io.jenkins.plugins.gitlabserverconfig.servers.helpers.GitLabPersonalAccessTokenCreator
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait
+io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority +.. io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.TagDiscoveryTrait$TagSCMHeadAuthority$DescriptorImpl
+hudson.model.EnvironmentContributor <|-- io.jenkins.plugins.gitlabbranchsource.Environment.GitLabWebHookEnvironmentContributor
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait
+io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait +.. io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.SSHCheckoutTrait$DescriptorImpl
+hudson.model.PersistentDescriptor <|.. io.jenkins.plugins.gitlabserverconfig.servers.GitLabServers
+jenkins.model.GlobalConfiguration <|-- io.jenkins.plugins.gitlabserverconfig.servers.GitLabServers
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.LogCommentTrait
+io.jenkins.plugins.gitlabbranchsource.LogCommentTrait +.. io.jenkins.plugins.gitlabbranchsource.LogCommentTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.LogCommentTrait$DescriptorImpl
+jenkins.scm.api.mixin.ChangeRequestSCMHead2 <|.. io.jenkins.plugins.gitlabbranchsource.MergeRequestSCMHead
+jenkins.scm.api.SCMHead <|-- io.jenkins.plugins.gitlabbranchsource.MergeRequestSCMHead
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait
+io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait +.. io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMarkUnstableAsSuccessTrait$DescriptorImpl
+jenkins.scm.api.SCMHeadEvent <|-- io.jenkins.plugins.gitlabbranchsource.AbstractGitLabSCMHeadEvent
+jenkins.scm.api.trait.SCMSourceRequest <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceRequest
+io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestSCMEvent <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestTrigger
+io.jenkins.plugins.gitlabbranchsource.AbstractGitLabSCMHeadEvent <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestSCMEvent
+jenkins.scm.api.metadata.AvatarMetadataAction <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatar
+hudson.model.UnprotectedRootAction <|.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$CacheEntry
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$ImageResponse
+io.jenkins.plugins.gitlabbranchsource.helpers.HttpResponse <|.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$ImageResponse
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$FetchImage
+io.jenkins.plugins.gitlabbranchsource.helpers.Callable <|.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabAvatarCache$FetchImage
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait
+io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait +.. io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.TriggerMRCommentTrait$DescriptorImpl
+jenkins.scm.api.SCMFileSystem <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem
+io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem +.. io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem$BuilderImpl
+io.jenkins.plugins.gitlabbranchsource.Builder <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMFileSystem$BuilderImpl
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait
+io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait +.. io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.GitLabAvatarTrait$DescriptorImpl
+jenkins.scm.api.trait.SCMNavigatorRequest <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigatorRequest
+jenkins.scm.api.trait.SCMNavigatorTrait <|-- io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait
+io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait +.. io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMNavigatorTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ExcludeArchivedRepositoriesTrait$DescriptorImpl
+hudson.model.UnprotectedRootAction <|.. io.jenkins.plugins.gitlabbranchsource.GitLabWebHookAction
+hudson.security.csrf.CrumbExclusion <|-- io.jenkins.plugins.gitlabbranchsource.GitLabWebHookAction
+jenkins.scm.api.SCMFile <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMFile
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobScheduledListener
+io.jenkins.plugins.gitlabbranchsource.helpers.QueueListener <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobScheduledListener
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCheckOutListener
+io.jenkins.plugins.gitlabbranchsource.helpers.SCMListener <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCheckOutListener
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCompletedListener
+io.jenkins.plugins.gitlabbranchsource.helpers.RunListener <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabPipelineStatusNotifier$JobCompletedListener
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait
+io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait +.. io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.BuildStatusNameCustomPartTrait$DescriptorImpl
+com.cloudbees.plugins.credentials.common.StandardCredentials <|-- io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessToken
+hudson.model.Action <|.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabLink
+org.jenkins.ui.icon.IconSpec <|.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabLink
+io.jenkins.plugins.gitlabbranchsource.SCMRevisionImpl <|-- io.jenkins.plugins.gitlabbranchsource.BranchSCMRevision
+com.cloudbees.plugins.credentials.CredentialsMatcher <|.. io.jenkins.plugins.gitlabserverconfig.credentials.helpers.GitLabCredentialMatcher
+jenkins.scm.api.trait.SCMNavigatorTrait <|-- io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait
+io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait +.. io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMNavigatorTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ProjectNamingStrategyTrait$DescriptorImpl
+hudson.plugins.git.browser.GitRepositoryBrowser <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser
+io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser +.. io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.helpers.Descriptor <|-- io.jenkins.plugins.gitlabbranchsource.helpers.GitLabBrowser$DescriptorImpl
+jenkins.plugins.git.GitSCMBuilder <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMBuilder
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustNobody$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustMembers$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone
+io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone +.. io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustEveryone$DescriptorImpl
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait
+io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority +.. io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$BranchSCMHeadAuthority$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$ExcludeOriginMRBranchesSCMHeadFilter
+io.jenkins.plugins.gitlabbranchsource.SCMHeadFilter <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$ExcludeOriginMRBranchesSCMHeadFilter
+io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$OnlyOriginMRBranchesSCMHeadFilter
+io.jenkins.plugins.gitlabbranchsource.SCMHeadFilter <|-- io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait$OnlyOriginMRBranchesSCMHeadFilter
+jenkins.scm.api.trait.SCMSourceBuilder <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceBuilder
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait
+io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait +.. io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait$DescriptorImpl
+hudson.model.RootAction <|.. io.jenkins.plugins.gitlabserverconfig.action.GitlabAction
+jenkins.scm.api.trait.SCMSourceContext <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMSourceContext
+hudson.triggers.SCMTrigger.SCMTriggerCause <|-- io.jenkins.plugins.gitlabbranchsource.GitLabWebHookCause
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait
+io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait +.. io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.HookRegistrationTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.AbstractGitLabJobTrigger <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestCommentTrigger
+jenkins.scm.api.trait.SCMNavigatorTrait <|-- io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait
+io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMNavigatorTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.SubGroupProjectDiscoveryTrait$DescriptorImpl
+jenkins.scm.api.SCMNavigator <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator
+io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator +.. io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.IconSpec <|.. io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMNavigatorDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigator$DescriptorImpl
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait
+io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait +.. io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthority <|-- io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority
+io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority +.. io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMHeadAuthorityDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait$OriginChangeRequestSCMHeadAuthority$DescriptorImpl
+io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessToken <|.. io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl
+com.cloudbees.plugins.credentials.impl.BaseStandardCredentials <|-- io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl
+io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl +.. io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl$DescriptorImpl
+io.jenkins.plugins.gitlabserverconfig.credentials.CredentialsDescriptor <|-- io.jenkins.plugins.gitlabserverconfig.credentials.PersonalAccessTokenImpl$DescriptorImpl
+jenkins.scm.api.SCMSourceEvent <|-- io.jenkins.plugins.gitlabbranchsource.GitLabProjectSCMEvent
+hudson.model.AbstractDescribableImpl <|-- io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer
+io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer +.. io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer$DescriptorImpl
+io.jenkins.plugins.gitlabserverconfig.servers.Descriptor <|-- io.jenkins.plugins.gitlabserverconfig.servers.GitLabServer$DescriptorImpl
+jenkins.scm.api.trait.SCMNavigatorContext <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMNavigatorContext
+io.jenkins.plugins.gitlabbranchsource.AbstractGitLabSCMHeadEvent <|-- io.jenkins.plugins.gitlabbranchsource.GitLabTagPushSCMEvent
+jenkins.scm.api.mixin.ChangeRequestSCMRevision <|-- io.jenkins.plugins.gitlabbranchsource.MergeRequestSCMRevision
+org.gitlab4j.api.systemhooks.SystemHookListener <|.. io.jenkins.plugins.gitlabbranchsource.GitLabSystemHookListener
+hudson.model.Cause <|-- io.jenkins.plugins.gitlabbranchsource.GitLabMergeRequestCommentCause
+jenkins.scm.api.trait.SCMSourceTrait <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait
+io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait +.. io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceTraitDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSkipNotificationsTrait$DescriptorImpl
+jenkins.plugins.git.AbstractGitSCMSource <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource
+io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource +.. io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.IconSpec <|.. io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.SCMSourceDescriptor <|-- io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource$DescriptorImpl
+io.jenkins.plugins.gitlabbranchsource.MergeWithGitSCMExtension <|-- io.jenkins.plugins.gitlabbranchsource.MergeWithGitSCMExtension
+@enduml
