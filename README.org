@@ -1,1 +1,2 @@
 * This is the repo for our capstone project
+Jacob was here.
