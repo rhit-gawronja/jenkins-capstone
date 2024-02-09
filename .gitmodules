@@ -1,3 +1,6 @@
 [submodule "gitlab-branch-source-plugin"]
 	path = gitlab-branch-source-plugin
 	url = https://github.com/jenkinsci/gitlab-branch-source-plugin.git
+[submodule "git-plugin"]
+	path = git-plugin
+	url = ./git-plugin/

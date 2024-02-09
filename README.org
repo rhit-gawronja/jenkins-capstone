@@ -1,2 +1,9 @@
-* This is the repo for our capstone project
+* Modifications on branch first behavoir gor changes
+This repository is a collection of all project notes and repositorys for code changes made to the repositories that are needed to preform the behavoir specified in the project documentation
+
+* TOC
+1. GitLab-Branch-Source Plugin
+2. Git plugin
+* GitLab-Branch-Source Plugin
+
 
